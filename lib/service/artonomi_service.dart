@@ -1,11 +1,14 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'package:dio/dio.dart';
+import 'package:dio_app/models/category_model.dart';
 import 'package:dio_app/models/user_model.dart';
 
 class ArtonomiService {
-  late Dio dio = Dio(BaseOptions(baseUrl: 'https://dummyjson.com/'));
+  //late Dio dio = Dio(BaseOptions(baseUrl: 'https://dummyjson.com/'));
   //late Dio dio = Dio(BaseOptions(baseUrl: 'https://fiko.artonomi.org/api/'));
+  late Dio dio = Dio(BaseOptions(baseUrl: 'https://www.alanzii.com/api/'));
+
   String? token;
   String? endpoint;
   Map<String,dynamic>? formdata;
@@ -15,6 +18,26 @@ class ArtonomiService {
     this.endpoint,
     this.formdata
   });
+
+  Future<List<Category>> getCategories(int? categoryId)async {
+    List<Category> categories = [];
+    int categoryid = categoryId ?? 0;
+
+    final response = await dio.get('categories/childs/$categoryid');
+
+    if(response.statusCode==200){
+      if(response.data['data']==false){
+        return Future.delayed(const Duration(milliseconds: 10),() => [],);
+      }else{
+        var dataList = (response.data['data'] as List);
+        categories = dataList.map((e) => Category.fromJson(e)).toList();
+        return categories;
+      }
+
+    }
+    return Future.delayed(const Duration(milliseconds: 10),() => [],);
+  }
+
 
   Future<List<User>> getUsers()async {
     List<User> users = [];

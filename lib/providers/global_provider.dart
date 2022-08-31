@@ -1,3 +1,4 @@
+import 'package:dio_app/models/category_model.dart';
 import 'package:dio_app/models/user_model.dart';
 import 'package:dio_app/service/artonomi_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -16,7 +17,15 @@ final usersProvider = FutureProvider<List<User>>((ref) async {
   return users;
 });
 
+final categoryProvider = FutureProvider.family<List<Category>,int>((ref,categoryId) async {
+  var service = ref.watch(serviceProvider);
+  List<Category> categories = await service.getCategories(categoryId);
+  return categories;
+});
 
+final breadcrumbProvider = StateProvider<List<String>>((ref) {
+  return [];
+});
 
 
 
