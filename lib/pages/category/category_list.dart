@@ -1,4 +1,5 @@
 import 'package:dio_app/main.dart';
+import 'package:dio_app/pages/advert/add_advert.dart';
 import 'package:dio_app/providers/global_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -34,7 +35,7 @@ class CategoryList extends ConsumerWidget {
                   data: (data){
                     if(data.isEmpty){
                       WidgetsBinding.instance.addPostFrameCallback((_) {
-                        Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const HomeScreen(),),(route) => false );
+                        Navigator.of(context).pushReplacement(CupertinoPageRoute(builder: (context) => const AddAdvert(),));
                       });
                       return const SizedBox();
                     }else if(data.isNotEmpty){
@@ -45,7 +46,8 @@ class CategoryList extends ConsumerWidget {
                             onTap: (){
                               breadcrumb.add(data[index].name!);
                               ref.read(breadcrumbProvider.notifier).state = breadcrumb;
-                              Navigator.of(context).push(MaterialPageRoute(builder: (context) => CategoryList(categoryId: data[index].id,),));
+                              ref.read(selectedCategoryProvider.notifier).state = data[index].id;
+                              Navigator.of(context).push(CupertinoPageRoute(builder: (context) => CategoryList(categoryId: data[index].id,),));
                             },
                             child: ListTile(
                               trailing: const Icon(CupertinoIcons.chevron_right),

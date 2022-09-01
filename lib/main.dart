@@ -6,6 +6,7 @@ import 'package:dio_app/pages/list_screens/list_screen2.dart';
 import 'package:dio_app/pages/list_screens/list_screen3.dart';
 import 'package:dio_app/providers/global_provider.dart';
 import 'package:dio_app/service/artonomi_service.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -19,6 +20,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: HomeScreen(),
     );
   }
@@ -41,20 +43,20 @@ class HomeScreen extends ConsumerWidget {
               ElevatedButton(
                 onPressed: (){
                   ref.read(breadcrumbProvider.notifier).state = [];
-                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => const CategoryList()));
+                  Navigator.of(context).push(CupertinoPageRoute(builder: (context) => const CategoryList()));
                 },
                 child: const Text('Category List')
               ),
               ElevatedButton(
-                onPressed: ()=>Navigator.of(context).push(MaterialPageRoute(builder: (context) => const ListScreen())),
+                onPressed: ()=>Navigator.of(context).push(CupertinoPageRoute(builder: (context) => const ListScreen())),
                 child: const Text('List Screen (Standart)')
               ),
               ElevatedButton(
-                onPressed: ()=>Navigator.of(context).push(MaterialPageRoute(builder: (context) => const ListScreen2())),
+                onPressed: ()=>Navigator.of(context).push(CupertinoPageRoute(builder: (context) => const ListScreen2())),
                 child: const Text('List Screen (Riverpod)')
               ),
               ElevatedButton(
-                onPressed: ()=>Navigator.of(context).push(MaterialPageRoute(builder: (context) => const ListScreen3())),
+                onPressed: ()=>Navigator.of(context).push(CupertinoPageRoute(builder: (context) => const ListScreen3())),
                 child: const Text('List Screen (Riverpod Raw)')
               ),
               ElevatedButton(

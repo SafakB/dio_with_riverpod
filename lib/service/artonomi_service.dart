@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:dio_app/models/category_model.dart';
+import 'package:dio_app/models/property_model.dart';
 import 'package:dio_app/models/user_model.dart';
 
 class ArtonomiService {
@@ -36,6 +37,16 @@ class ArtonomiService {
 
     }
     return Future.delayed(const Duration(milliseconds: 10),() => [],);
+  }
+
+
+  Future<List<Property>> getProperties(int categoryId)async{
+    List<Property> properties = [];
+    final response = await dio.post('categories/properties/$categoryId');
+    if(response.statusCode == 200){
+      properties = (response.data['data'] as List).map((e) => Property.fromJson(e)).toList();
+    }
+    return properties;
   }
 
 

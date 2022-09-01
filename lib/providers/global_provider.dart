@@ -1,4 +1,7 @@
+import 'dart:developer';
+
 import 'package:dio_app/models/category_model.dart';
+import 'package:dio_app/models/property_model.dart';
 import 'package:dio_app/models/user_model.dart';
 import 'package:dio_app/service/artonomi_service.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -23,8 +26,22 @@ final categoryProvider = FutureProvider.family<List<Category>,int>((ref,category
   return categories;
 });
 
+final selectedCategoryProvider = StateProvider<int?>((ref) {
+  return;
+});
+
 final breadcrumbProvider = StateProvider<List<String>>((ref) {
   return [];
+});
+
+final propertyProvider = FutureProvider<List<Property>>((ref) async{
+  int? selectedCategory = ref.watch(selectedCategoryProvider);
+  var service = ref.watch(serviceProvider);
+  List<Property> properties = [];
+  if(selectedCategory!=null){
+    properties = await service.getProperties(selectedCategory);
+  }
+  return properties;
 });
 
 
